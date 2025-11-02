@@ -14,10 +14,33 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
+            padding-top: 10px;
+        }
+        .header {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 15px 30px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .header img {
+            height: 80px;
+            width: auto;
+            object-fit: contain;
+        }
+        .header-title {
+            font-size: 2em;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+            flex: 1;
         }
         .container {
             background: white;
@@ -26,6 +49,7 @@
             max-width: 800px;
             width: 100%;
             padding: 40px;
+            margin: 0 auto;
         }
         h1 {
             color: #333;
@@ -136,6 +160,10 @@
     </style>
 </head>
 <body>
+    <header class="header">
+        <img src="{{ url_for('static', filename='KSI.png') }}" alt="KSI Logo">
+        <h2 class="header-title">Project Demonstration</h2>
+    </header>
     <div class="container">
         <h1>💊 Drug Trafficking Detection System</h1>
         <p class="subtitle">This system analyzes public messages or texts for possible drug-related content.</p>

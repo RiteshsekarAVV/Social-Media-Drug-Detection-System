@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, send_file, jsonify
 from fpdf import FPDF
 import os
 from datetime import datetime
+from io import BytesIO
 
 app = Flask(__name__)
 
@@ -71,9 +72,7 @@ def detect_drug_content(text):
 # PDF Report Generator
 # -------------------------------------
 def generate_pdf_report(text, result):
-    os.makedirs("reports", exist_ok=True)
-    file_name = f"reports/Report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
-
+    # Create PDF in memory
     pdf = FPDF()
     pdf.add_page()
     
@@ -113,8 +112,9 @@ def generate_pdf_report(text, result):
     pdf.cell(0, 7, f"Detected Keywords: {', '.join(result['keywords']) if result['keywords'] else 'None'}", ln=True, align="L")
     pdf.set_left_margin(20)
     
-    pdf.output(file_name)
-    return file_name
+    # Generate PDF bytes in memory (output() returns bytearray by default)
+    pdf_bytes = pdf.output()
+    return BytesIO(pdf_bytes)
 
 # -------------------------------------
 # Flask Routes
@@ -140,8 +140,13 @@ def generate_pdf():
     text = data.get('text', '')
     result = data.get('result', {})
     
-    pdf_path = generate_pdf_report(text, result)
-    return send_file(pdf_path, as_attachment=True, download_name="Forensic_Report.pdf")
+    pdf_buffer = generate_pdf_report(text, result)
+    return send_file(
+        pdf_buffer,
+        mimetype='application/pdf',
+        as_attachment=True,
+        download_name="Forensic_Report.pdf"
+    )
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
