@@ -11,7 +11,7 @@ app = Flask(__name__)
 drug_keywords = [
     "mdma", "lsd", "mephedrone", "weed", "ganja", "ecstasy", 
     "acid", "snow", "molly", "coke", "dm for", "hit", 
-    "available", "plug", "powder", "crystal","cocaine","meth"
+    "available", "plug", "powder", "crystal","cocaine","meth","drugs","Drugs"
 ]
 
 def detect_drug_content(text):
